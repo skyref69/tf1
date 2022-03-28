@@ -1,10 +1,3 @@
-# provider "aws" {
-#   region = "us-east-1"
-#   access_key = "AKIASKHAFQCJHRV26XKQ"
-#   secret_key = "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"
-# }
-
-
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
 
