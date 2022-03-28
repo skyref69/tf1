@@ -1,0 +1,27 @@
+{
+  "name": "terra-lambda-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build && cd dist && node test.js",
+    "clean": "tsc --build --clean",
+    "deploy:all": "tsc --build && cd terraform && terraform apply -auto-approve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skyref69/terra-lambda-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skyref69/terra-lambda-2/issues"
+  },
+  "homepage": "https://github.com/skyref69/terra-lambda-2#readme",
+  "dependencies": {
+    "tsconfig.json": "^1.0.10",
+    "typescript": "^4.6.3"
+  }
+}
