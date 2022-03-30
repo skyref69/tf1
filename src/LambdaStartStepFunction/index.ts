@@ -9,7 +9,7 @@ export const LambdaStartStepFunction = async(event: stateVoteDb) => {
     const poolStatus = event.Records[0].dynamodb.NewImage.poolStatus.S    
     const taskToken = event.Records[0].dynamodb.NewImage.taskToken.S
     try {      
-        if(poolStatus === 'open' && taskToken === '0'){                           
+        if(poolStatus === 'opened' && taskToken === '0'){                           
           let params = {
             stateMachineArn: process.env.STATE_MACHINE_ARN,            
             input: JSON.stringify({"id": id, "poolStatus": poolStatus}),

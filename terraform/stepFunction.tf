@@ -57,7 +57,7 @@ resource "aws_sns_topic" "sns_multi_notification" {
 
 // CREATE STATE MACHINE FOR STEP FUNCTION
 resource "aws_sfn_state_machine" "sfn_state_machine" {
-  name     = "sample-state-machine"
+  name     = "state-machine-TERRAFORM"
   role_arn = "${aws_iam_role.iam_for_sfn.arn}"
   
   definition = <<EOF
@@ -108,6 +108,4 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
 }
 EOF
   
-  depends_on = [aws_lambda_function.lambda_fn1]
-
 }
