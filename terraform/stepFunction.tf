@@ -18,7 +18,7 @@ resource "aws_iam_role" "iam_for_sfn" {
 EOF
 }
 
-# Create policy
+# Create policy sns-topic ------------------------------------------- //
 resource "aws_iam_policy" "policy_publish_sns" {
   name        = "stepFunctionSampleSNSInvocationPolicy"
 
@@ -41,12 +41,41 @@ resource "aws_iam_policy" "policy_publish_sns" {
 EOF
 }
 
-// Attach policy to IAM Role for Step Function
+// Attach policy sns-topic to IAM Role for Step Function
 resource "aws_iam_role_policy_attachment" "iam_for_sfn_attach_policy_publish_sns" {
   role       = "${aws_iam_role.iam_for_sfn.name}"
   policy_arn = "${aws_iam_policy.policy_publish_sns.arn}"
 }
-// ---
+// ---------------------------------------------------------------------------- //
+
+# Create policy invoke lambda handler db -------------------------------------- //
+resource "aws_iam_policy" "policy_invoke_lambda" {
+  name        = "stepFunctionInvokeLambdaPolicy"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction",
+                "lambda:InvokeAsync"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+// Attach policy to IAM Role for Step Function
+resource "aws_iam_role_policy_attachment" "iam_for_sfn_attach_policy_invoke_lambda" {
+  role       = "${aws_iam_role.iam_for_sfn.name}"
+  policy_arn = "${aws_iam_policy.policy_invoke_lambda.arn}"
+}
+// ----------------------------------------------------------------------------- //
 
 
 // Create topic
@@ -62,48 +91,39 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
   
   definition = <<EOF
 {
-  "StartAt": "Open-vote",
+  "StartAt": "Open",
   "States": {
-    "Open-vote": {
-      "Comment": "Opening phase vote",
-      "Type": "Pass",     
-      "ResultPath": "$",
-      "Next": "Send-sns"
-    },
-    "Send-sns": {
-      "Comment": "Send sns",
-      "Type": "Pass",     
-      "ResultPath": "$",
-      "Next": "send-multiple-notification"
-    },
-    "send-multiple-notification": {
-      "Type": "Task",
+    "Open": {
+      "Type": "Task",      
       "Resource": "arn:aws:states:::sns:publish",
       "Parameters": {
         "TopicArn": "${aws_sns_topic.sns_multi_notification.arn}",
         "Message.$": "$"
-      },
-      "Next": "WaitForTask"
+      }, 
+      "ResultPath": null, 
+      "Next": "Voting Phase"
     },
-    "WaitForTask": {
-      "Type": "Task",
-      "Resource": "arn:aws:states:::sqs:sendMessage.waitForTaskToken",
-      "Parameters": {
-        "QueueUrl": "yyyyy",
-        "MessageBody": {
-          "MessageTitle": "bla bla",
-          "TaskToken.$": "$$.Task.Token"
-        }
-      },
-      "End": true,
-      "Catch": [
-        {
-          "ErrorEquals": [ "States.ALL" ],
-          "Next": "Send-sns"
-        }
-      ]
+    "Voting Phase": {
+      "Type": "Task", 
+      "Resource": "${aws_lambda_function.lambda_handler_db.arn}", 
+      "ResultPath": null, 
+      "Next": "Closed"
+    },
+    "Closed": {
+      "Type": "Pass",     
+      "ResultPath": "$",
+      "Next": "Aggregate Results"
+    },
+    "Aggregate Results": {
+      "Type": "Pass",  
+      "ResultPath": "$",   
+      "Next": "Send Results"
+    },
+    "Send Results": {
+      "Type": "Pass",  
+      "ResultPath": "$",   
+      "End": true
     }
-
   }
 }
 EOF

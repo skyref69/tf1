@@ -12,7 +12,7 @@ export const LambdaStartStepFunction = async(event: stateVoteDb) => {
         if(poolStatus === 'opened' && taskToken === '0'){                           
           let params = {
             stateMachineArn: process.env.STATE_MACHINE_ARN,            
-            input: JSON.stringify({"id": id, "poolStatus": poolStatus}),
+            input: JSON.stringify({"dataOpened": {"id": id, "poolStatus": poolStatus}}),
         }        
         await stepfunctions.startExecution(params).promise();        
         }else if(poolStatus == 'closed'){

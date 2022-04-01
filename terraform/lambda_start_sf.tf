@@ -6,21 +6,6 @@ data "archive_file" "lambda_start_sf_zip" {
     output_path   = "${var.aws_output_filezip_start_sf}"  
 }
 
-// Create AWS Lambda functions
-resource "aws_lambda_function" "lambda_start_sf" {
-  filename         = "${var.aws_output_filezip_start_sf}"
-  function_name    = "lambda_start_sf"
-  role             = aws_iam_role.iam_for_lambda_start_sf.arn
-  handler          = "index.LambdaStartStepFunction"
-  source_code_hash = "${data.archive_file.lambda_start_sf_zip.output_base64sha256}"
-  runtime          = "nodejs12.x" 
-  environment {
-    variables = {
-      STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
-    }
-  }
-}
-
 // Create IAM role for AWS LAMBDAStartStepFunction
 resource "aws_iam_role" "iam_for_lambda_start_sf" {
   name = "iam_for_lambda_start_sf"
@@ -77,5 +62,20 @@ resource "aws_lambda_event_source_mapping" "trigger_lambda_start" {
   event_source_arn  = aws_dynamodb_table.DATABASE-TEST-TERRAFORM.stream_arn
   function_name     = aws_lambda_function.lambda_start_sf.arn
   starting_position = "LATEST"
+}
+
+// Create AWS Lambda functions
+resource "aws_lambda_function" "lambda_start_sf" {
+  filename         = "${var.aws_output_filezip_start_sf}"
+  function_name    = "lambda_start_sf"
+  role             = aws_iam_role.iam_for_lambda_start_sf.arn
+  handler          = "index.LambdaStartStepFunction"
+  source_code_hash = "${data.archive_file.lambda_start_sf_zip.output_base64sha256}"
+  runtime          = "nodejs14.x" 
+  environment {
+    variables = {
+      STATE_MACHINE_ARN = aws_sfn_state_machine.sfn_state_machine.arn
+    }
+  }
 }
 

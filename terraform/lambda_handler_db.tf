@@ -33,17 +33,21 @@ resource "aws_iam_policy" "policy_for_lambda_handler_db" {
 
   policy = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-              "states:StartExecution"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "VisualEditor0",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "dynamodb:GetItem",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
 EOF
 }
@@ -56,10 +60,11 @@ resource "aws_iam_role_policy_attachment" "iam_for_lambda_attach_policy_lambda_h
 
 // Create AWS Lambda functions
 resource "aws_lambda_function" "lambda_handler_db" {
+  
   filename         = "${var.aws_output_handler_db}"
   function_name    = "lambda_handler_db"
   role             = aws_iam_role.iam_for_lambda_handler_db.arn
   handler          = "index.LambdaHandlerDbFunction"
   source_code_hash = "${data.archive_file.lambda_handler_db_zip.output_base64sha256}"
-  runtime          = "nodejs12.x"
+  runtime          = "nodejs14.x"    
 }
