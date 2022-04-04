@@ -5,13 +5,14 @@ import { Converter } from 'aws-sdk/clients/dynamodb';
 
 const dynamoClient = new DynamoDB({})
 
-export const LambdaHandlerDbFunction = async(event: any) => {    
-  
+export const LambdaHandlerDbFunction = async(event: any) => {  
+
   if(!event) return sendFail('invalid request: body undefined !')
-  //if(!event.token) return sendFail('invalid request: token undefined !')  
-  const id: string = event.dataOpened.id
-  const taskToken:string = 'wudehffu9443gng43g'  
-      
+  if(!event.token) return sendFail('invalid request: token undefined !')  
+ 
+  const id:string = event.otherInput.dataOpened.id
+  const taskToken:string = event.token 
+ 
   try {
     const todoParams: UpdateItemInput = {
       Key: Converter.marshall({id: id}),

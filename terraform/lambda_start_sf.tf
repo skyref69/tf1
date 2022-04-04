@@ -38,12 +38,18 @@ resource "aws_iam_policy" "policy_for_lambda_start_sf" {
         {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
-            "Action": [
+            "Action": [              
               "states:StartExecution",
+              "states:SendTaskSuccess",
+              "states:SendTaskHeartbeat",
+              "states:SendTaskHeartbeat",
               "dynamodb:GetShardIterator",
               "dynamodb:DescribeStream",
               "dynamodb:GetRecords",
-              "dynamodb:ListStreams"
+              "dynamodb:ListStreams",
+              "logs:CreateLogGroup",
+              "logs:CreateLogStream",
+              "logs:PutLogEvents"
             ],
             "Resource": "*"
         }

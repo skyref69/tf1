@@ -104,8 +104,16 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Next": "Voting Phase"
     },
     "Voting Phase": {
-      "Type": "Task", 
-      "Resource": "${aws_lambda_function.lambda_handler_db.arn}", 
+      "Type": "Task",
+      "Resource":"arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "HeartbeatSeconds": 600,
+      "Parameters": {
+        "FunctionName": "${aws_lambda_function.lambda_handler_db.arn}",
+        "Payload":{  
+          "token.$":"$$.Task.Token",
+          "otherInput.$": "$"
+        }
+      },
       "ResultPath": null, 
       "Next": "Closed"
     },
