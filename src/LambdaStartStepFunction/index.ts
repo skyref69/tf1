@@ -5,13 +5,15 @@ import { stateVoteDb } from '../interfaces/StateVoteDb.interface'
 let stepfunctions = new AWS.StepFunctions()
 
 export const LambdaStartStepFunction = async(event: stateVoteDb) => {
-    const id = event.Records[0].dynamodb.NewImage.id.S
-    const poolStatus = event.Records[0].dynamodb.NewImage.poolStatus.S    
-    const taskToken = event.Records[0].dynamodb.NewImage.taskToken.S 
+    
+    let id = event.Records[0].dynamodb.NewImage.id.S
+    let poolStatus = event.Records[0].dynamodb.NewImage.poolStatus.S    
+    let taskToken = event.Records[0].dynamodb.NewImage.taskToken.S 
+    
     try {        
-        switch (poolStatus) {
-            case 'opened':  
-                console.log('Command opened vote received !');              
+      switch (poolStatus) {
+        case 'opened':  
+            console.log('Command opened vote received !');              
                 if (taskToken === '0') {
                     let params = {
                         stateMachineArn: process.env.STATE_MACHINE_ARN,            

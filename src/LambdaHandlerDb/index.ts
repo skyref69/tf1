@@ -5,7 +5,7 @@ import { Converter } from 'aws-sdk/clients/dynamodb';
 
 const dynamoClient = new DynamoDB({})
 
-export const LambdaHandlerDbFunction = async(event: any) => {  
+export const LambdaHandlerDbFunction = async(event: updateStateVoteDb) => {  
 
   if(!event) return sendFail('invalid request: body undefined !')
   if(!event.token) return sendFail('invalid request: token undefined !')  

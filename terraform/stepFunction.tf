@@ -30,9 +30,7 @@ resource "aws_iam_policy" "policy_publish_sns" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-              "sns:Publish",
-              "sns:SetSMSAttributes",
-              "sns:GetSMSAttributes"
+              "sns:Publish"
             ],
             "Resource": "*"
         }
@@ -60,8 +58,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
             "Action": [
-                "lambda:InvokeFunction",
-                "lambda:InvokeAsync"
+                "lambda:InvokeFunction"
             ],
             "Resource": "*"
         }
@@ -106,7 +103,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     "Voting Phase": {
       "Type": "Task",
       "Resource":"arn:aws:states:::lambda:invoke.waitForTaskToken",
-      "HeartbeatSeconds": 600,
       "Parameters": {
         "FunctionName": "${aws_lambda_function.lambda_handler_db.arn}",
         "Payload":{  
@@ -118,8 +114,13 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Next": "Closed"
     },
     "Closed": {
-      "Type": "Pass",     
-      "ResultPath": "$",
+      "Type": "Task",   
+      "Resource": "arn:aws:states:::sns:publish",  
+      "Parameters": {
+        "TopicArn": "${aws_sns_topic.sns_multi_notification.arn}",
+        "Message.$": "$"
+      },
+      "ResultPath": null,
       "Next": "Aggregate Results"
     },
     "Aggregate Results": {
@@ -128,7 +129,12 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Next": "Send Results"
     },
     "Send Results": {
-      "Type": "Pass",  
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${aws_sns_topic.sns_multi_notification.arn}",
+        "Message.$": "$"
+      },  
       "ResultPath": "$",   
       "End": true
     }
