@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --build && cd dist && node test.js",
     "clean": "tsc --build --clean",
-    "deploy:all": "tsc --build && cd terraform && terraform apply -auto-approve"
+    "deploy:all": "tsc --build && cd terraform && terraform apply -auto-approve",
+    "prova": "cd config-component && cd lambda-dynamo-stream-handler && tsc --build && tscp && cd ../lambda-update-phase-task-token && tsc --build && tscp && cd ../../terraform && terraform apply -target=module.dynamodb-test-terraform -target=module.stepfunction -target=module.lambda-dynamo-stream-handler -target=module.lambda-update-phase-task-token"
   },
   "repository": {
     "type": "git",
@@ -24,11 +24,14 @@
     "@aws-sdk/client-dynamodb": "^3.58.0",
     "@aws-sdk/client-sns": "^3.56.0",
     "@aws-sdk/util-dynamodb": "^3.58.0",
+    "@types/config": "^0.0.41",
     "aws-sdk": "2.1101.0",
+    "config": "^3.3.7",
     "tsconfig.json": "^1.0.10",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
-    "@types/node": "^17.0.23"
+    "@types/node": "^17.0.23",
+    "typescript-cp": "^0.1.5"
   }
 }

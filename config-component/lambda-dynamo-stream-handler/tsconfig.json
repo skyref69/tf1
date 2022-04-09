@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "outDir": "./.build",
+		"rootDir": "./src",
+		"baseUrl": "./"
+  }
+}
+
+// {
+//   "compilerOptions": {
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "noImplicitAny": true,
+//     "noImplicitThis": true,
+//     "noEmitOnError": true,
+//     "removeComments": false,
+//     "sourceMap": false,
+//     "resolveJsonModule": true,
+//     "strictNullChecks": true,
+//     "target": "es5",
+//     "rootDir": "scripts/src",
+//     "outDir": "scripts/dist",
+//     "baseUrl": "src"      
+//   }
+// }

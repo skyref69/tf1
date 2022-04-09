@@ -1,0 +1,24 @@
+{
+  "name": "@ita-voting-discovery/config-components-dynamo-stream-handler",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -p tsconfig.json",
+    "compile": "npx tsc -p .",
+    "start": "export NODE_CONFIG_DIR=./src/config && node .build/src/index.js",
+    "dev": "export NODE_CONFIG_DIR=./src/config && nodemon .build/src/index.js",
+    "deploy:prova": "tsc --build",
+    "deploy:all": "tsc --build && cd ../../ && cd infrastructure/terraform && terraform apply -auto-approve"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "0.23.4",
+    "@types/config": "^0.0.41",
+    "@types/node": "17.0.23",
+    "config": "^3.3.7",
+    "dotenv": "^16.0.0"
+  }
+}

@@ -104,7 +104,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
       "Type": "Task",
       "Resource":"arn:aws:states:::lambda:invoke.waitForTaskToken",
       "Parameters": {
-        "FunctionName": "${aws_lambda_function.lambda_handler_db.arn}",
+        "FunctionName": "${var.lambda_update_phase_task_token_arn}",
         "Payload":{  
           "token.$":"$$.Task.Token",
           "otherInput.$": "$"

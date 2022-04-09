@@ -65,4 +65,3 @@ resource "aws_iam_role_policy_attachment" "iam_lambda_attach_policy_dynamodb" {
   role       = "${aws_iam_role.iam_for_dynamodb.name}"
   policy_arn = "${aws_iam_policy.policy_dynamodb.arn}"
 }
-
