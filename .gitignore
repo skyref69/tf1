@@ -2,11 +2,22 @@
 !jest.config.js
 *.d.ts
 node_modules
+config-component
+asd
 
 # CDK asset staging directory
 .cdk.staging
 cdk.out
 
 # TERRAFORM
-variables.tf
 .terraform
+main.tf
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# CONFIG-COMPONENTS
+.build
+package-lock.json
+
+
