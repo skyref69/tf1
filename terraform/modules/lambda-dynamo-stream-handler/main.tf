@@ -64,7 +64,7 @@ resource "aws_iam_role_policy_attachment" "iam_for_lambda_attach_policy_lambda_d
 }
 
 resource "aws_lambda_event_source_mapping" "trigger_lambda_dynamo_stream_handler" {                
-  event_source_arn  = "${var.DATABASE-TEST-TERRAFORM-STREAM}"
+  event_source_arn  = "${var.database-test-terraform-stream}"
   function_name     = aws_lambda_function.lambda_dynamo_stream_handler.arn                      
   starting_position = "LATEST"
 }
@@ -79,7 +79,7 @@ resource "aws_lambda_function" "lambda_dynamo_stream_handler" {
   runtime          = "nodejs14.x" 
   environment {
     variables = {
-      STATE_MACHINE_ARN = "${var.STATE_MACHINE_ARN}"
+      state_machine_arn = "${var.state_machine_arn}"
     }
   }
 }

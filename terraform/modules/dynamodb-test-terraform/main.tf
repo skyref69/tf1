@@ -1,5 +1,5 @@
-resource "aws_dynamodb_table" "DATABASE-TEST-TERRAFORM" {
-  name           = "DATABASE-TEST-TERRAFORM"
+resource "aws_dynamodb_table" "database-test-terraform" {
+  name           = "database-test-terraform"
   billing_mode   = "PAY_PER_REQUEST" 
   hash_key       = "id"
   stream_enabled   = true
@@ -11,7 +11,7 @@ resource "aws_dynamodb_table" "DATABASE-TEST-TERRAFORM" {
   }
 
   tags = {
-    TODO_TABLE_NAME = "DATABASE-TEST-TERRAFORM"
+    TODO_TABLE_NAME = "database-test-terraform"
   }  
 }
 

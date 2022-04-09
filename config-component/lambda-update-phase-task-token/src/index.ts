@@ -13,7 +13,7 @@ export const LambdaUpdatePhaseTaskTokenFunction = async(event: updateStateVoteDb
  
   const id:string = event.otherInput.dataOpened.id
   const taskToken:string = event.token 
-  let TableName: string = process.env.DATABASENAME!
+  let TableName: string = process.env.databasename!
  
   try {
     const todoParams: UpdateItemInput = {

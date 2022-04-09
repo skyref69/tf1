@@ -1,21 +1,3 @@
-//  import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-
-// import config from "config";
-
-//  const sfnClient = new SFNClient({ region: "eu-west-1" });
-
-//  export const dynamoStreamHandler = async (event: any) => {
-//  	for (const record of event.Records) {
-//  		if (record.eventName === "INSERT" && record.dynamodb && record.dynamodb.NewImage) {
-//  			const command = new StartExecutionCommand({
-//  				stateMachineArn: config.get("STATE_MACHINE_ARN")
-//  			});
-//  			const response = await sfnClient.send(command);
-//  		}
-//  	}
-//  };
-
-
 import * as AWS from "aws-sdk"
 import process = require('process');
 import { stateVoteDb } from "./interfaces/StateVoteDb.interface"
@@ -34,7 +16,7 @@ export const LambdaDynamoStreamHandlerFunction = async(event: stateVoteDb) => {
             console.log("Command opened vote received !");               
                 if (taskToken === "0") {
                     let params = {
-                        stateMachineArn: process.env.STATE_MACHINE_ARN!,
+                        stateMachineArn: process.env.state_machine_arn!,
                         input: JSON.stringify({"dataOpened": {"id": id, "poolStatus": poolStatus}})
                     };
                     await stepfunctions.startExecution(params).promise();                  
@@ -59,15 +41,3 @@ export const LambdaDynamoStreamHandlerFunction = async(event: stateVoteDb) => {
     }    
     return "end"
 }
-
-// export const LambdaDynamoStreamHandlerFunction = async(event: stateVoteDb) => {
-    
-  
-
-   
-// let a = process.env.STATE_MACHINE_ARN
-// console.log(a)
-   
-//    return a       
-    
-// }

@@ -68,7 +68,7 @@ resource "aws_lambda_function" "lambda_update_phase_task_token" {
   runtime          = "nodejs14.x"   
   environment {
     variables = {
-      DATABASENAME = "${var.DATABASENAME}"
+      databasename = "${var.databasename}"
     }
   } 
 }

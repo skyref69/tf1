@@ -11,10 +11,10 @@ module "stepfunction" {
 }
 module "lambda-dynamo-stream-handler" {
   source  = "./modules/lambda-dynamo-stream-handler"
-  DATABASE-TEST-TERRAFORM-STREAM = "${module.dynamodb-test-terraform.DATABASE-TEST-TERRAFORM-STREAM}"
-  STATE_MACHINE_ARN = "${module.stepfunction.STATE_MACHINE_ARN}"
+  database-test-terraform-stream = "${module.dynamodb-test-terraform.database-test-terraform-stream}"
+  state_machine_arn = "${module.stepfunction.state_machine_arn}"
 }
 module "lambda-update-phase-task-token" {
   source  = "./modules/lambda-update-phase-task-token"
-  DATABASENAME = "${module.dynamodb-test-terraform.DATABASENAME}"
+  databasename = "${module.dynamodb-test-terraform.databasename}"
 }

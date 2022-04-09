@@ -1,7 +1,6 @@
-output "DATABASE-TEST-TERRAFORM-STREAM" {
-  value = aws_dynamodb_table.DATABASE-TEST-TERRAFORM.stream_arn
+output "database-test-terraform-stream" {
+  value = aws_dynamodb_table.database-test-terraform.stream_arn
 }
-
-output "DATABASENAME" {
-  value = aws_dynamodb_table.DATABASE-TEST-TERRAFORM.name
+output "databasename" {
+  value = aws_dynamodb_table.database-test-terraform.name
 }

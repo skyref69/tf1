@@ -7,7 +7,7 @@
     "build": "tsc --build && cd dist && node test.js",
     "clean": "tsc --build --clean",
     "deploy:all": "tsc --build && cd terraform && terraform apply -auto-approve",
-    "prova": "cd config-component && cd lambda-dynamo-stream-handler && tsc --build && tscp && cd ../lambda-update-phase-task-token && tsc --build && tscp && cd ../../terraform && terraform apply -target=module.dynamodb-test-terraform -target=module.stepfunction -target=module.lambda-dynamo-stream-handler -target=module.lambda-update-phase-task-token"
+    "prova": "cd config-component && cd lambda-dynamo-stream-handler && tsc --build && cd ../lambda-update-phase-task-token && tsc --build && cd ../../terraform && terraform apply -target=module.dynamodb-test-terraform -target=module.stepfunction -target=module.lambda-dynamo-stream-handler -target=module.lambda-update-phase-task-token"
   },
   "repository": {
     "type": "git",
